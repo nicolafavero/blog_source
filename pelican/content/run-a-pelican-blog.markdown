@@ -41,18 +41,9 @@ Call the first repository `blog_source` and the second one `<your_user_name>.git
 
 # Install the template
 
-Create a directory that will host your blog, get into it and create a Python virtual environment
+Create a Python virtual environment and install `cookiecutter`
 
 ``` sh
-mkdir mysite
-cd mysite
-python3 -m venv venv3
-```
-
-Activate the virtual environment and install `cookiecutter`
-
-``` sh
-source venv3/bin/activate
 pip install cookiecutter
 ```
 
@@ -67,7 +58,7 @@ Now, you will be asked some questions, let's look at them in detail. Remember th
 * `github_username [yourusername]` - Well, this should be self-explanatory
 * `blog_source_repo [blog_source]` - This is just the name of the source repository that you created on GitHub
 * `deploy_repository [yourusername.github.com]` - This is the name of the deploy repository, i.e. the one that contains the actual static website. The default value is already filled with your GitHub username, so if you are setting up a GitHub Pages blog you can just accept it
-* `deploy_directory [deploy]` - The directory where the deploy repository is cloned and that will be updated by the deployment process
+* `deploy_directory [deploy]` - The local directory where the deploy repository is cloned and that will be updated by the deployment process. By default, this is set to `deploy` inside the project directory.
 * `use_versioning [y]` - Say `y` if you want to have a release process for your website with a version number and associated Git tags.
 
 # Set up the environment
@@ -87,7 +78,7 @@ cd <blog_source_repo>
 This script performs the following actions
 
     * It initializes git in the local repository, adding the source repository as a remote with the name `origin`
-    * If you are using the versioning and you decided to use Git Flow, it initializes this last one, creating the `develop` branch.
+    * If you are using the versioning and you decided to use Git Flow TODO(when is this decided?), it initializes this last one, creating the `develop` branch.
     * Clones the https://github.com/getpelican/pelican-plugins repository
     * Clones the https://github.com/getpelican/pelican-themes repository
     * Creates the deploy directory which is a local clone one of the deploy repository
