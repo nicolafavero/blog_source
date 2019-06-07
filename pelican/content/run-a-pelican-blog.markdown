@@ -4,7 +4,7 @@ Category: Projects
 Tags: Python, Python3, pelican
 Authors: Leonardo Giordani
 Slug: run-a-pelican-blog
-Image:
+Image: run-a-pelican-blog
 Summary: 
 
 One of the biggest piece of advice I can give to beginner developers is: write a blog.
@@ -25,27 +25,13 @@ I started with [Jekyll](https://jekyllrb.com/), a very well-known static website
 
 Since I didn't have the time to study Ruby at that point, I tried to find a good static site generator written in Python, a language that I know, and I found it in [Pelican](https://blog.getpelican.com/). Arguably, the Pelican website is not graphically amazing, and this worried me a bit, but I quickly discovered that the whole system is pretty good.
 
-In 6 years, with the help of Pelican, I developed a wonderfully simple blogging work flow based on Git, so I decided to share my Pelican setup with a Cookiecutter template TODO LINK. Recently I refurbished the template to update it with the latest changes that I made to my personal setup and I realised that, despite the documentation, setting up a blog based on pelican might still be difficult for some.
+In 6 years, with the help of Pelican, I developed a wonderfully simple blogging work flow based on Git, so I decided to share my Pelican setup with a Cookiecutter template. Recently I refurbished the template to update it with the latest changes that I made to my personal setup and I realised that, despite the documentation, setting up a blog based on pelican might still be difficult for some.
 
 In this post I will show you how to create your blog from scratch using Pelican. You don't need to know Python to use it, even though, as it happened to me with Jekyll, it might help if you want to get involved in the development of the project.
 
-# Static web development
+You can also run Pelican without this template, just follow the [instructions](http://docs.getpelican.com/en/latest/install.html) on the official documentation. My template simplifies the initial installation, and creates some script that make you follow a specific work flow, but you are free to change them to suit you needs.
 
 If you are not acquainted with static web sites have a look at the [Wikipedia page](https://en.wikipedia.org/wiki/Static_web_page).
-
-# My work flow
-
-The work flow that you will follow using this setup is the following
-
-1. Create a git branch
-2. Create one or more new articles / Edit previous articles
-3. Commit
-4. Merge the branch
-5. Release
-6. Deploy
-7. Publish
-
-Each one of these steps, with the notable exception of the second one, is preformed through a single command and takes up to few seconds in the worst case.
 
 # Prerequisites
 
@@ -68,7 +54,7 @@ pip install cookiecutter
 Then run `cookiecutter` on the template I prepared
 
 ``` sh
-$ cookiecutter https://github.com/lgiordani/cookiecutter-pelicanblog.git
+cookiecutter https://github.com/lgiordani/cookiecutter-pelicanblog.git
 ```
 
 Now, you will be asked some questions, let's look at them in detail. Remember that you can always start from scratch of fix the values you entered manually later.
@@ -82,33 +68,21 @@ Now, you will be asked some questions, let's look at them in detail. Remember th
 
 # Set up the environment
 
-Now enter the directory that was created by the template, it has the name of the source repository
+Now enter the directory that was created by the template, install the requirements and run the `setup.sh` script
 
 ``` sh
 cd <blog_source_repo>
-```
-
-(e.g. `cd blog_source`), and run the `setup.sh` script.
-
-``` sh
+pip install -r requirements.txt
 ./setup.sh
 ```
 
 This script performs the following actions
 
-* It initializes git in the local repository, adding the source repository as a remote with the name `origin`
-* If you decided to use Git Flow, it initializes the repository, creating the `develop` branch.
-* Clones the https://github.com/getpelican/pelican-plugins repository
-* Clones the https://github.com/getpelican/pelican-themes repository
-* Creates the `deploy` directory which is a local clone one of the deploy repository
-
-# Install requirements
-
-Install the requirements that you find in the `requirements.txt` file
-
-``` sh
-pip install -r requirements.txt
-```
+* it initializes git in the local repository, adding the source repository as a remote with the name `origin`
+* if you decided to use Git Flow, it initializes the repository, creating the `develop` branch.
+* it clones the https://github.com/getpelican/pelican-plugins repository
+* it clones the https://github.com/getpelican/pelican-themes repository
+* it creates the `deploy` directory which is a local clone one of the deploy repository
 
 # Configure Pelican
 
@@ -118,18 +92,39 @@ Now everything is ready to run the `pelican-quickstart` script.
 pelican-quickstart
 ```
 
-This script asks the following questions. I marked with a **!!** the answers that are not up to you but depend on the current setup
+This script asks the following questions. I marked with a **!!!** the answers that are not up to you but depend on the current setup
 
-* `Where do you want to create your new web site? [.]` - **!!** Answer `pelican` so everything will be installed in that directory inside the current one, keeping the installation tidy.
+* `Where do you want to create your new web site? [.]` - **!!!** Answer `pelican` so everything will be installed in that directory inside the current one, keeping the installation tidy.
 * `What will be the title of this web site?` - This is up to you
 * `Who will be the author of this web site?` - This is up to you
 * `What will be the default language of this web site? [en]` - This is up to you
-* `Do you want to specify a URL prefix? e.g., http://example.com   (Y/n)` **!!** Answer `Y`
-* `What is your URL prefix? (see above example; no trailing slash)` **!!** This is `http://<username>.github.io`
+* `Do you want to specify a URL prefix? e.g., https://example.com   (Y/n)` **!!!** Answer `Y`
+* `What is your URL prefix? (see above example; no trailing slash)` **!!!** This is `https://<username>.github.io` if you are using GH pages
 * `Do you want to enable article pagination? (Y/n)` - This is up to you
 * `How many articles per page do you want? [10]` - This is up to you
 * `What is your time zone? [Europe/Paris]` - This is up to you
-* `Do you want to generate a Fabfile/Makefile to automate generation and publishing? (Y/n)` - **!!** Answer `n`
+* `Do you want to generate a tasks.py/Makefile to automate generation and publishing? (Y/n)` - **!!!** Answer `Y`
+* Answer `n` to all the following questions
 
-If you have questions on this part you can read the [Pelican documentation}(http://docs.getpelican.com/en/latest/install.html).
+If you have questions on this part you can read the [Pelican documentation](http://docs.getpelican.com/en/latest/install.html).
+
+Now you can enter the `pelican` directory and run `make devserver` which will run the development server at http://localhost:8000. [This page](http://docs.getpelican.com/en/latest/publish.html#make) of the official documentation explains all the options of the Makefile.
+
+# The work flow
+
+The work flow that you will follow using this setup is the following (I assume you use Git Flow, change the git commands accordingly if you are using another flow)
+
+1. Create a git branch: `git flow feature start <branch>`
+2. Create one or more new articles / Edit previous articles: create the files as `pelican/content/<slug>.markdown`
+3. Commit: `git commit` (repeat 2 and 3 until you are satisfied with the results)
+4. Merge the branch: `git flow feature finish`
+5. Release: `./release.sh` (this runs Punch to create a new release)
+6. Deploy: `./deploy.sh` (this runs Pelican to create the static site and copies everything in the `deploy` directory)
+7. Publish: `./publish.sh` (this adds, commits, and pushes the files in the `deploy` directory)
+
+Each one of these steps, with the notable exception of the second one, is performed through a single command and takes up to few seconds in the worst case. I prefer to have control on the publishing process, so often I run the git commands manually in the `deploy` directory, but you can safely use the provided Make directive.
+
+# Versioning
+
+Versioning is not the most important thing to do in a blog, but I personally like to have a trace of what I created and when in my Git log. I use [Punch](https://pypi.org/project/punch.py/), a package that I developed to replace bumpversion. If you want to customise the default versioning scheme contained in the template read the [Punch documentation](https://punch.readthedocs.io/en/latest/).
 
